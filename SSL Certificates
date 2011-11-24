@@ -9,10 +9,16 @@
 > openssl req -newkey rsa:1024 -nodes -keyout client.key -out client.req 
 
 4. Sign the client certificate
-> openssl ca -out client.pem -infiles client.req 
+> openssl ca -out clientcert.pem -infiles client.req 
 
 5. Create a new private key and certificate for the server
 > openssl req -newkey rsa:1024 -nodes -keyout server.key -out server.req 
 
-6. Sign the client certificate
-> openssl ca -out server.pem -infiles server.req
+6. Sign the server certificate
+> openssl ca -out servercert.pem -infiles server.req
+
+
+sudo cat /etc/pki/CA/private/cakey.pem /etc/pki/CA/cacert.pem > root.pem
+cat server.key servercert.pem /etc/pki/CA/cacert.pem > server.pem
+cat client.key clientcert.pem /etc/pki/CA/cacert.pem > client.pem
+
